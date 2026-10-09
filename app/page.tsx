@@ -1,65 +1,162 @@
-import Image from "next/image";
+"use client"
+
+import * as React from "react"
+import { AppSidebar } from "@/components/app-sidebar"
+// import { ChartAreaInteractive } from "@/components/chart-area-interactive"
+import { DataTable } from "@/components/data-table"
+import { ProductForm } from "@/components/product-form"
+// import { SectionCards } from "@/components/section-cards"
+import { SiteHeader } from "@/components/site-header"
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
+
+import data from "./data.json"
+const sectionContents: Record<string, React.ReactNode> = {
+  Productos: <ProductForm data={data} />,
+  Materiales: (
+    <div className="p-6 text-sm text-muted-foreground">
+      Contenido de materiales. Aquí puedes cargar la lista de materiales, filtros y acciones.
+    </div>
+  ),
+  Usuarios: (
+    <div className="p-6 text-sm text-muted-foreground">
+      Contenido de usuarios. Aquí puedes mostrar usuarios, roles y permisos.
+    </div>
+  ),
+  Facturas: (
+    <div className="p-6 text-sm text-muted-foreground">
+      Contenido de facturas. Aquí puedes mostrar facturas, estados y totales.
+    </div>
+  ),
+  Proveedores: (
+    <div className="p-6 text-sm text-muted-foreground">
+      Contenido de proveedores. Aquí puedes mostrar contactos y condiciones de compra.
+    </div>
+  ),
+  "Ventas y Cotizaciones": (
+    <div className="p-6 text-sm text-muted-foreground">
+      Módulo de ventas y cotizaciones. Gestiona tus ventas, cotizaciones y pagos.
+    </div>
+  ),
+  Ventas: (
+    <div className="p-6 text-sm text-muted-foreground">
+      Lista de ventas registradas. Aquí puedes ver el historial de todas las transacciones.
+    </div>
+  ),
+  "Detalle Ventas": (
+    <div className="p-6 text-sm text-muted-foreground">
+      Detalles de cada venta. Visualiza líneas de productos, cantidades y precios.
+    </div>
+  ),
+  Cotizaciones: (
+    <div className="p-6 text-sm text-muted-foreground">
+      Gestión de cotizaciones. Crea y mantén un registro de todas tus cotizaciones.
+    </div>
+  ),
+  Pagos: (
+    <div className="p-6 text-sm text-muted-foreground">
+      Registro de pagos recibidos. Controla el estado de cobranza de tus ventas.
+    </div>
+  ),
+  "Compras y Abastecimiento": (
+    <div className="p-6 text-sm text-muted-foreground">
+      Módulo de compras. Gestiona órdenes de compra y abastecimiento.
+    </div>
+  ),
+  Compras: (
+    <div className="p-6 text-sm text-muted-foreground">
+      Órdenes de compra. Aquí puedes crear y gestionar tus compras a proveedores.
+    </div>
+  ),
+  "Clientes y Relaciones": (
+    <div className="p-6 text-sm text-muted-foreground">
+      Gestión de clientes y relaciones comerciales. Mantén un registro centralizado.
+    </div>
+  ),
+  Clientes: (
+    <div className="p-6 text-sm text-muted-foreground">
+      Base de datos de clientes. Información de contacto, historial y datos comerciales.
+    </div>
+  ),
+  Roles: (
+    <div className="p-6 text-sm text-muted-foreground">
+      Gestión de roles y permisos. Define permisos para diferentes usuarios del sistema.
+    </div>
+  ),
+  Imágenes: (
+    <div className="p-6 text-sm text-muted-foreground">
+      Galería de imágenes. Gestiona las imágenes de tus productos.
+    </div>
+  ),
+  "Imágenes de Productos": (
+    <div className="p-6 text-sm text-muted-foreground">
+      Carga y gestiona imágenes de productos. Mejora la presentación de tu catálogo.
+    </div>
+  ),
+  "Clasificación y Estructura": (
+    <div className="p-6 text-sm text-muted-foreground">
+      Estructura de datos. Configura categorías, marcas y unidades de medida.
+    </div>
+  ),
+  Categorías: (
+    <div className="p-6 text-sm text-muted-foreground">
+      Gestión de categorías de productos. Organiza tu catálogo de forma jerárquica.
+    </div>
+  ),
+  Marcas: (
+    <div className="p-6 text-sm text-muted-foreground">
+      Registro de marcas. Mantén un catálogo de todas las marcas que comercializas.
+    </div>
+  ),
+  "Unidades de Medida": (
+    <div className="p-6 text-sm text-muted-foreground">
+      Configuración de unidades de medida. Define unidades para tus productos (kg, lt, etc.).
+    </div>
+  ),
+}
 
 export default function Home() {
+  const [section, setSection] = React.useState("Productos")
+    const [isPending, startTransition] = React.useTransition()
+  
+    const handleSectionChange = (nextSection: string) => {
+      startTransition(() => {
+        setSection(nextSection)
+      })
+    }
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <SidebarProvider
+      style={
+        {
+          "--sidebar-width": "calc(var(--spacing) * 72)",
+          "--header-height": "calc(var(--spacing) * 12)",
+        } as React.CSSProperties
+      }
+    >
+      <AppSidebar
+        variant="inset"
+        activeSection={section}
+        onSectionChange={handleSectionChange}
+      />
+      <SidebarInset>
+        <SiteHeader title={section} />
+        <div className="flex flex-1 flex-col">
+          <div className="@container/main flex flex-1 flex-col gap-2">
+            <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+              {isPending ? (
+                <div className="p-6 text-sm text-muted-foreground">
+                  Cargando {section}...
+                </div>
+              ) : (
+                sectionContents[section] ?? (
+                  <div className="p-6 text-sm text-muted-foreground">
+                    Selecciona una sección del menú para ver su contenido.
+                  </div>
+                )
+              )}
+            </div>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+      </SidebarInset>
+    </SidebarProvider>
   );
 }
