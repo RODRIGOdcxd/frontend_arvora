@@ -12,13 +12,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
+function clienteMontado() {
+  return true
+}
+
 export function ModeToggle() {
   const { setTheme } = useTheme()
-  const [mounted, setMounted] = React.useState(false)
-
-  React.useEffect(() => {
-    setMounted(true)
-  }, [])
+  const mounted = React.useSyncExternalStore(() => () => {}, clienteMontado, () => false)
 
   if (!mounted) {
     return (

@@ -85,10 +85,10 @@ export function CotizacionEditor({ id }: { id: string }) {
     altoMm: "",
   })
   const [erroresLinea, setErroresLinea] = React.useState<Record<string, string>>({})
-
-  React.useEffect(() => {
-    const cotizacion = consulta.data
-    if (!cotizacion) return
+  const cotizacion = consulta.data
+  const [hidratada, setHidratada] = React.useState<Cotizacion | null>(null)
+  if (cotizacion && cotizacion !== hidratada) {
+    setHidratada(cotizacion)
     setValores({
       numero: cotizacion.numero,
       clienteId: String(cotizacion.clienteId),
@@ -106,7 +106,7 @@ export function CotizacionEditor({ id }: { id: string }) {
     })
     const siguiente = Math.max(0, ...cotizacion.lineas.map((item) => item.linea)) + 1
     setLinea((previo) => ({ ...previo, linea: String(siguiente) }))
-  }, [consulta.data])
+  }
 
   const editable = nuevo || consulta.data?.estado === "BORRADOR"
   const campos: FieldDef[] = [
@@ -212,7 +212,6 @@ export function CotizacionEditor({ id }: { id: string }) {
     )
   }
 
-  const cotizacion = consulta.data
   const vista = previewTotales({
     importes: (cotizacion?.lineas ?? []).map((item) => item.importe),
     descuento: numeroONull(valores.descuento) ?? 0,

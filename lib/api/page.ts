@@ -37,7 +37,7 @@ export type SortAccess<T> = (item: T) => string | number | boolean | null | unde
 
 export function paginar<T>(items: T[], url: URL, sortFields: Record<string, SortAccess<T>>): SpringPage<T> {
   const sort = url.searchParams.get("sort")
-  let filas = items.slice()
+  const filas = items.slice()
   if (sort) {
     const [campo, direccion = "asc"] = sort.split(",")
     const acceso = sortFields[campo]

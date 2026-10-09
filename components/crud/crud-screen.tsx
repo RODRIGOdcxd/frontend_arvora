@@ -112,10 +112,12 @@ export function CrudScreen<T extends { id: number }>({ config }: { config: CrudC
   const [valores, setValores] = React.useState<FormValues>(config.defaultValues)
   const [errores, setErrores] = React.useState<Record<string, string>>({})
   const [confirmar, setConfirmar] = React.useState<T | null>(null)
-
-  React.useEffect(() => {
+  const consultaClave = `${textoEstable}|${size}|${sort}|${JSON.stringify(filtros)}`
+  const [claveVista, setClaveVista] = React.useState(consultaClave)
+  if (claveVista !== consultaClave) {
+    setClaveVista(consultaClave)
     setPage(0)
-  }, [textoEstable, size, sort, filtros])
+  }
 
   const consulta = usePagina<T>(config.queryKey, config.endpoint, {
     page,

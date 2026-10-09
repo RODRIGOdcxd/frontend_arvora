@@ -115,10 +115,12 @@ export function ArticuloEditor({ id }: { id: string }) {
   })
   const [valores, setValores] = React.useState<FormValues>(vacio)
   const [errores, setErrores] = React.useState<Record<string, string>>({})
-
-  React.useEffect(() => {
-    if (consulta.data) setValores(desdeArticulo(consulta.data))
-  }, [consulta.data])
+  const articulo = consulta.data
+  const [hidratado, setHidratado] = React.useState<Articulo | null>(null)
+  if (articulo && articulo !== hidratado) {
+    setHidratado(articulo)
+    setValores(desdeArticulo(articulo))
+  }
 
   const categorias = useCatalogo<Categoria>("categorias", "/categorias")
   const unidades = useCatalogo<UnidadMedida>("unidades", "/unidades-medida", "codigo,asc")
